@@ -36,7 +36,7 @@ def store_page():
 
 @app.route('/orders')
 def orders_page():
-    return render_template('orders.html', name="SampleShop", articles=[Article(*i) for i in db.load_all_articles()])
+    return render_template('orders.html', name="SampleShop", orders=[Order(*i) for i in db.load_all_orders()])
 
 
 @app.route('/sql', methods=['PATCH'])

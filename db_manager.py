@@ -32,37 +32,38 @@ class SQLighter:
         except sqlite3.OperationalError:
             pass
 
-########################################################################################################################
+###################################################ARTICLES HANDLING####################################################
 
     def load_all_articles(self):
         with sqlite3.connect(self.db_file) as db:
-            dbcursor = db.cursor()
-            return [[str(j) for j in i] for i in dbcursor.execute('SELECT * FROM store_articles', ).fetchall()]
+            return [[str(j) for j in i] for i in db.cursor().execute('SELECT * FROM store_articles', ).fetchall()]
 
     def add_new_article(self, article_id, sort, description, availability, amount, price):
         with sqlite3.connect(self.db_file) as db:
-            dbcursor = db.cursor()
-            dbcursor.execute(
+            db.cursor().execute(
                 'INSERT INTO store_articles (article_id, sort, description, availability, amount, price) VALUES (?, ?, ?, ?, ?, ?)',
                 (article_id, sort, description, availability, amount, price))
             db.commit()
 
     def update_article(self, article_id, sort, description, availability, amount, price):
         with sqlite3.connect(self.db_file) as db:
-            dbcursor = db.cursor()
-            dbcursor.execute(
+            db.cursor().execute(
                 'UPDATE store_articles SET sort = (?), description = (?), availability = (?), amount = (?), price = (?) WHERE article_id = (?)',
                 (sort, description, availability, amount, price, article_id))
             db.commit()
 
     def is_sort_in_table(self, sort):
         with sqlite3.connect(self.db_file) as db:
-            dbcursor = db.cursor()
-            return True if extract(dbcursor.execute('SELECT EXISTS (SELECT * FROM store_articles WHERE sort = (?))',
+            return True if extract(db.cursor().execute('SELECT EXISTS (SELECT * FROM store_articles WHERE sort = (?))',
                                                     (sort, )).fetchall()) else False
 
     def delete_article(self, article_id):
         with sqlite3.connect(self.db_file) as db:
-            dbcursor = db.cursor()
-            dbcursor.execute("DELETE FROM store_articles WHERE article_id = (?)", (article_id,))
+            db.cursor().execute("DELETE FROM store_articles WHERE article_id = (?)", (article_id,))
             db.commit()
+
+####################################################ORDERS HANDLING#####################################################
+
+    def load_all_orders(self):
+        with sqlite3.connect(self.db_file) as db:
+            return [[str(j) for j in i] for i in db.cursor().execute('SELECT * FROM new_orders', ).fetchall()]

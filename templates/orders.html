@@ -114,7 +114,7 @@
 
     <div id="navbar">
         <a href="{{ url_for('store_page')}}">Склад</a>
-        <a href="javascript:void(0)">Новые заказы</a>
+        <a class="active" href="javascript:void(0)">Новые заказы</a>
         <a href="javascript:void(0)">Обработанные заказы</a>
     </div>
 
@@ -124,26 +124,25 @@
             <tr>
                 <th class="hidden">Номер заказа</th>
                 <th class="hidden">Клиент</th>
-                <th class="hidden">Состояние</th>
                 <th class="hidden">Артикул</th>
-                <th class="hidden">Количеств</th>
+                <th class="hidden">Количество</th>
                 <th class="hidden"></th>
             </tr>
             </thead>
 
-            {{ % for order in orders %}}
+            {% for order in orders %}
             <tr id="row{{ order.id }}">
                 <td id="order_row{{ order.id }}">{{ order.id }}</td>
                 <td id="customerId_row{{ order.id }}">{{ order.customer_id }}</td>
-                <td id="article_row{{ order.id }}">{{ item.article }}</td>
-                <td id="amount_row{{ order.id }}">{{item.amount + ' шт.'}}</td>
+                <td id="article_row{{ order.id }}">{{ order.article }}</td>
+                <td id="amount_row{{ order.id }}">{{ order.amount + ' шт.' }}</td>
             </tr>
-            {{ % endfor % }}
+            {% endfor %}
 
         </table>
     </div>
 
-<script type="text/javascript" src="../table_script.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='table_script.js') }}"></script>
 
 </body>
 </html>

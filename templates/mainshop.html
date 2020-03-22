@@ -114,11 +114,11 @@
 
     <div id="navbar">
         <a href="{{ url_for('store_page')}}">Склад</a>
-        <a href="{{ url_for('newOrders_page')}}">Новые заказы</a>
+        <a href="{{ url_for('orders_page')}}">Новые заказы</a>
         <a href="javascript:void(0)">Обработанные заказы</a>
     </div>
 
-<script type="text/javascript" src="../table_script.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='table_script.js') }}"></script>
 
 </body>
 </html>
