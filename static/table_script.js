@@ -1,3 +1,13 @@
+const navbar = document.getElementById("navbar");
+let sticky = navbar.offsetTop;
+
+window.onscroll = function() {
+    if (window.pageYOffset >= sticky) {
+            navbar.classList.add("sticky")
+        } else {
+            navbar.classList.remove("sticky");
+        }};
+
 function edit_row(no) {
     document.getElementById("edit_button"+no).style.display="none";
     document.getElementById("save_button"+no).style.display="block";
@@ -147,7 +157,7 @@ function add_row() {
         xhttp.onreadystatechange = function (){
             if(xhttp.readyState === 4) {
                 switch (xhttp.status) {
-                    case 200:
+                    case 201:
                         let new_row = table.insertRow(table_len).outerHTML=
                         "<tr id='row"+table_len+"'>" +
                         "<td id='sort_row"+table_len+"'>"+JSONtoSend['new_sort']+"</td>" +

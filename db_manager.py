@@ -21,10 +21,18 @@ class SQLighter:
                                     "amount"	INTEGER NOT NULL,
                                     "price"	NUMERIC NOT NULL,
                                     PRIMARY KEY("article_id")
+                                ),  CREATE TABLE "new_orders" (
+	                                "order_id"	INTEGER NOT NULL UNIQUE,
+                                    "customer_id"	INTEGER NOT NULL,
+                                    "article"	INTEGER NOT NULL,
+                                    "amount"	INTEGER NOT NULL,
+                                    PRIMARY KEY("order_id")
                                 )""")
                 db.commit()
         except sqlite3.OperationalError:
             pass
+
+########################################################################################################################
 
     def load_all_articles(self):
         with sqlite3.connect(self.db_file) as db:
@@ -56,6 +64,5 @@ class SQLighter:
     def delete_article(self, article_id):
         with sqlite3.connect(self.db_file) as db:
             dbcursor = db.cursor()
-            dbcursor.execute("""DELETE FROM store_articles
-                                WHERE article_id = (?)""", (article_id,))
+            dbcursor.execute("DELETE FROM store_articles WHERE article_id = (?)", (article_id,))
             db.commit()

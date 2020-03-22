@@ -110,12 +110,37 @@
 </head>
 <body>
     <h1>{{ name }}</h1>
-    <h2>Главное меню</h2>
+    <h2>Новые заказы</h2>
 
     <div id="navbar">
         <a href="{{ url_for('store_page')}}">Склад</a>
-        <a href="{{ url_for('newOrders_page')}}">Новые заказы</a>
+        <a href="javascript:void(0)">Новые заказы</a>
         <a href="javascript:void(0)">Обработанные заказы</a>
+    </div>
+
+    <div id="table_container">
+        <table id="data_table">
+            <thead>
+            <tr>
+                <th class="hidden">Номер заказа</th>
+                <th class="hidden">Клиент</th>
+                <th class="hidden">Состояние</th>
+                <th class="hidden">Артикул</th>
+                <th class="hidden">Количеств</th>
+                <th class="hidden"></th>
+            </tr>
+            </thead>
+
+            {{ % for order in orders %}}
+            <tr id="row{{ order.id }}">
+                <td id="order_row{{ order.id }}">{{ order.id }}</td>
+                <td id="customerId_row{{ order.id }}">{{ order.customer_id }}</td>
+                <td id="article_row{{ order.id }}">{{ item.article }}</td>
+                <td id="amount_row{{ order.id }}">{{item.amount + ' шт.'}}</td>
+            </tr>
+            {{ % endfor % }}
+
+        </table>
     </div>
 
 <script type="text/javascript" src="../table_script.js"></script>

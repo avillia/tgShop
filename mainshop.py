@@ -12,6 +12,14 @@ class Article:
         self.price = price
 
 
+class Order:
+    def __init__(self, id, customer, article, amount):
+        self.id = id
+        self.customer = customer
+        self.article = article
+        self.amount = amount
+
+
 app = Flask(__name__)
 db = SQLighter()
 
@@ -24,6 +32,11 @@ def main_page():
 @app.route('/store')
 def store_page():
     return render_template('store.html', name="SampleShop", articles=[Article(*i) for i in db.load_all_articles()])
+
+
+@app.route('/orders')
+def orders_page():
+    return render_template('orders.html', name="SampleShop", articles=[Article(*i) for i in db.load_all_articles()])
 
 
 @app.route('/sql', methods=['PATCH'])
