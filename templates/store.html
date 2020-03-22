@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ name }} — склад</title>
+    <style>
+
+        body {
+            margin: 0;
+            padding-top: 5%;
+            background-color: #7BA48D;
+            font-family: "JetBrains Mono";
+            color: white;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        td, th {
+            color: #58624c;
+            border: 3px solid #58624c;
+            background-color: #dff8c2;
+            font-size: 1.2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        input {
+            border: 0;
+            font-size: 1.25rem;
+            width: 95%;
+        }
+
+        .hidden {
+            color: white;
+            white-space: normal;
+            border: 0;
+            background-color: #7BA48D;
+            border-collapse: collapse;
+            font-size: 24px;
+            min-width: 150px;
+        }
+
+        .save_button, .edit_button, .delete_button, .add_button{
+            grid-row: 1;
+            grid-column: 1;
+            padding: 5px 5px;
+            font-size: 17px;
+            text-align: center;
+            cursor: pointer;
+            outline: none;
+            color: #e6eaec;
+            background-color: #6F8691;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 3px #8f7c71;
+            width: inherit;
+        }
+
+        .save_button:hover, .edit_button:hover, .delete_button:hover, .add_button:hover {
+            background-color: #ddd;
+            color: #4a585f;
+        }
+
+        .save_button:active, .edit_button:active, .delete_button:active, .add_button:active {
+            background-color: #B8D09C;
+            color: #58624c;
+            box-shadow: 0 1px #5d524b;
+            transform: translateY(4px);
+        }
+
+        .save_button {
+            display: none;
+        }
+
+        .delete_button {
+            grid-row: 2;
+        }
+
+        #table_container {
+            padding: 4%;
+        }
+
+        .warning_cell{
+            background: red;
+        }
+
+        #navbar {
+            overflow: hidden;
+            background-color: #6F8691;
+            width: 100%;
+        }
+
+        #navbar a {
+            float: left;
+            display: block;
+            color: #e6eaec;
+            text-align: center;
+            padding: 20px 0px;
+            text-decoration: none;
+            font-size: 20px;
+            width: 33.33%;
+        }
+
+        #navbar a:hover {
+            background-color: #ddd;
+            color: #4a585f;
+        }
+
+        #navbar a.active {
+            background-color: #B8D09C;
+            color: #58624c;
+        }
+
+        .sticky {
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>{{ name }}</h1>
+    <h2>Склад</h2>
+
+    <div id="navbar">
+        <a class="active" href="javascript:void(0)">Склад</a>
+        <a href="javascript:void(0)">Новые заказы</a>
+        <a href="javascript:void(0)">Обработанные заказы</a>
+    </div>
+
+    <div id="table_container">
+        <table id="data_table">
+            <thead>
+            <tr>
+                <th class="hidden">Товар</th>
+                <th class="hidden">Описание</th>
+                <th class="hidden">Состояние</th>
+                <th class="hidden">Кол-во</th>
+                <th class="hidden">Цена</th>
+                <th class="hidden"></th>
+            </tr>
+
+            {% for item in articles %}
+            <tr id="row{{ item.id }}">
+                <td id="sort_row{{  item.id  }}">{{ item.sort }}</td>
+                <td id="description_row{{ item.id }}">{{ item.description }}</td>
+                <td id="availability_row{{ item.id }}">{{ item.availability }}</td>
+                <td id="amount_row{{ item.id }}">{{item.amount + ' шт.'}}</td>
+                <td id="price_row{{ item.id }}">{{item.price + ' грн'}}</td>
+                <td class="hidden" style="display: grid; width: 100%">
+                    <input type="button" id="edit_button{{ item.id }}" value="Редактировать" class="edit_button" onclick="edit_row('{{ item.id }}')">
+                    <input type="button" id="save_button{{ item.id }}" value="Сохранить" class="save_button" onclick="save_row('{{ item.id }}')">
+                    <input type="button" value="Удалить" class="delete_button" onclick="delete_row('{{ item.id }}')">
+                </td>
+            </tr>
+            {% endfor %}
+
+            <tr>
+                <td style="background: white"><label for="new_sort"></label><input type="text" id="new_sort"></td>
+                <td style="background: white"><label for="new_description"></label><input type="text" id="new_description"></td>
+                <td style="background: white"><label for="new_availability"></label><input type="text" id="new_availability" ></td>
+                <td style="background: white"><label for="new_amount"></label><input type="text" id="new_amount" ></td>
+                <td style="background: white"><label for="new_price"></label><input type="text" id="new_price" ></td>
+                <td class="hidden" style="display: grid; width: 100%"><input type="button" class="add_button" onclick="add_row();" value="Добавить"></td>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+
+<script>
+    window.onscroll = function() {myFunction()};
+
+    const navbar = document.getElementById("navbar");
+    let sticky = navbar.offsetTop;
+
+    function myFunction() {
+        if (window.pageYOffset >= sticky) {
+            navbar.classList.add("sticky")
+        } else {
+            navbar.classList.remove("sticky");
+        }
+    }
+</script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='table_script.js') }}"></script>
+
+</body>
+</html>
