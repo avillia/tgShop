@@ -27,6 +27,12 @@ class SQLighter:
                                     "article"	INTEGER NOT NULL,
                                     "amount"	INTEGER NOT NULL,
                                     PRIMARY KEY("order_id")
+                                ),  CREATE TABLE "customers" (
+                                    "customer_id"	INTEGER NOT NULL UNIQUE,
+                                    "customer_name"	TEXT ,
+                                    "phone"	TEXT UNIQUE,
+                                    "delivery_adress" TEXT,
+                                    PRIMARY KEY("customer_id")
                                 )""")
                 db.commit()
         except sqlite3.OperationalError:
@@ -67,3 +73,22 @@ class SQLighter:
     def load_all_orders(self):
         with sqlite3.connect(self.db_file) as db:
             return [[str(j) for j in i] for i in db.cursor().execute('SELECT * FROM new_orders', ).fetchall()]
+
+###################################################СUSTOMERS HANDLING###################################################
+
+    def create_new_customer(self, customer_id):
+        with sqlite3.connect(self.db_file) as db:
+            db.cursor().execute(
+                'INSERT INTO сustomers (customer_id,) VALUES (?, )', (customer_id, ))
+            db.commit()
+
+    def get_customer_by_id(self, customer_id):
+        with sqlite3.connect(self.db_file) as db:
+            return [[str(j) for j in i] for i in db.cursor().execute('SELECT * FROM customers WHERE customer_id = (?)', (customer_id,)).fetchall()]
+
+    def update_customer(self, customer_id, customer_name, phone, delivery_address):
+        with sqlite3.connect(self.db_file) as db:
+            db.cursor().execute(
+                'UPDATE customers SET customer_name = (?), phone = (?), delivery_address = (?) WHERE article_id = (?)',
+                (customer_name, phone, delivery_address, customer_id, ))
+            db.commit()

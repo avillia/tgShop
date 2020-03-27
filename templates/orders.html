@@ -1,112 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
-    <title>{{ name }} - склад</title>
-    <style>
-
-        body {
-            margin: 0;
-            padding-top: 5%;
-            background-color: #7BA48D;
-            font-family: "JetBrains Mono";
-            color: white;
-        }
-
-        h1, h2 {
-            text-align: center;
-        }
-
-        td, th {
-            color: #58624c;
-            border: 3px solid #58624c;
-            background-color: #dff8c2;
-            font-size: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .hidden {
-            color: white;
-            border: 0;
-            background-color: #7BA48D;
-            border-collapse: collapse;
-            font-size: 24px;
-            width: 2%;
-        }
-
-        .save_button, .edit_button, .delete_button, .add_button{
-            padding: 5px 5px;
-            font-size: 15px;
-            text-align: center;
-            cursor: pointer;
-            outline: none;
-            color: #e6eaec;
-            background-color: #6F8691;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 3px #8f7c71;
-            width: 70px;
-        }
-
-        .save_button{
-            display: none;
-        }
-
-        .save_button:hover, .edit_button:hover, .delete_button:hover, .add_button:hover {
-            background-color: #ddd;
-            color: #4a585f;
-        }
-
-        .save_button:active, .edit_button:active, .delete_button:active, .add_button:active {
-            background-color: #B8D09C;
-            color: #58624c;
-            box-shadow: 0 1px #5d524b;
-            transform: translateY(4px);
-        }
-
-        #table_container {
-            padding: 4%;
-        }
-
-        #navbar {
-            overflow: hidden;
-            background-color: #6F8691;
-            width: 100%;
-        }
-
-        #navbar a {
-            float: left;
-            display: block;
-            color: #e6eaec;
-            text-align: center;
-            padding: 20px 0px;
-            text-decoration: none;
-            font-size: 20px;
-            width: 33.33%;
-        }
-
-        #navbar a:hover {
-            background-color: #ddd;
-            color: #4a585f;
-        }
-
-        #navbar a.active {
-            background-color: #B8D09C;
-            color: #58624c;
-        }
-
-        .sticky {
-            position: fixed;
-            top: 0;
-            width: 100%;
-        }
-
-    </style>
+    <title>{{ name }} — новые заказы</title>
+    <link href="{{ url_for('static', filename='stylesheet.css') }}" rel="stylesheet" type="text/css" >
 </head>
 <body>
     <h1>{{ name }}</h1>
@@ -136,6 +33,10 @@
                 <td id="customerId_row{{ order.id }}">{{ order.customer_id }}</td>
                 <td id="article_row{{ order.id }}">{{ order.article }}</td>
                 <td id="amount_row{{ order.id }}">{{ order.amount + ' шт.' }}</td>
+                <td class="hidden" style="display: grid; width: 100%">
+                    <input type="button" id="decline_button{{ order.id }}" value="Отклонить" class="decline_button" onclick="">
+                    <input type="button" id="approve_button{{ order.id }}" value="Принять" class="approve_button" onclick="">
+                </td>
             </tr>
             {% endfor %}
 
